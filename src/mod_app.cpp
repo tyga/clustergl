@@ -1743,7 +1743,7 @@ extern "C" void glFogiv(GLenum pname, const GLint * params){
 	int size = sizeof(const GLint);
 	if(pname == GL_FOG_COLOR)
 		size *= 4;  
-		pushBuf(params, size);  
+	pushBuf(params, size);  
          
 }
 
@@ -5130,7 +5130,7 @@ extern "C" void glUniformMatrix4fv(GLint location, GLsizei count, GLboolean tran
 	pushParam(location);
 	pushParam(count);
 	pushParam(transpose);
-	pushBuf(value, sizeof(GLfloat) * count);
+	pushBuf(value, sizeof(GLfloat) * count * 4);
 }
 
 //539
@@ -7040,7 +7040,7 @@ extern "C" void glUniformMatrix2fvARB(GLint location, GLsizei count, GLboolean t
 	pushParam(location);
 	pushParam(count);
 	pushParam(transpose);
-	pushBuf(value, sizeof(GLint) * count * 2);
+	pushBuf(value, sizeof(GLint) * count * 4); // 2x2
 }
 
 //771
@@ -7050,7 +7050,7 @@ extern "C" void glUniformMatrix3fvARB(GLint location, GLsizei count, GLboolean t
 	pushParam(location);
 	pushParam(count);
 	pushParam(transpose);
-	pushBuf(value, sizeof(GLint) * count * 3);
+	pushBuf(value, sizeof(GLint) * count * 9); // 3x3
 }
 
 //772
@@ -7060,7 +7060,7 @@ extern "C" void glUniformMatrix4fvARB(GLint location, GLsizei count, GLboolean t
 	pushParam(location);
 	pushParam(count);
 	pushParam(transpose);
-	pushBuf(value, sizeof(GLint) * count * 4);
+	pushBuf(value, sizeof(GLint) * count * 16); // 4x4
 }
 
 //773
