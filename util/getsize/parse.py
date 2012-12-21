@@ -35,8 +35,8 @@ param = ""
 for line in open("input.txt").readlines():
 	line = line.strip()
 	
-	if line.find("GL_") == 0:
+	if line.startswith("GL_"):
 		param = line
 		
-	elif line.find("params returns ") >= 0:
+	elif line.startswith("params returns "):
 		print "case " + param + ": return " + str(n(line)) + ";"
