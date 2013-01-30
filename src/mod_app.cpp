@@ -5415,7 +5415,7 @@ extern "C" void glVertexAttrib4usv(GLuint index, const GLushort * v){
 //576
 extern "C" void glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer){
 	LOG("Called untested stub VertexAttribPointer!\n");
-	pushOp(575);
+	pushOp(576);
 	pushParam(index);
 	pushParam(size);
 	pushParam(type);
