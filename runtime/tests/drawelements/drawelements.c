@@ -496,6 +496,7 @@ int main( int argc, char **argv )
 				    fprintf( stderr, "Could not get a surface after resize: %s\n", SDL_GetError( ) );
 				    Quit( 1 );
 				}
+				initGL();
 			    resizeWindow( event.resize.w, event.resize.h );
 			    break;
 			case SDL_KEYDOWN:
