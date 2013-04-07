@@ -20,6 +20,8 @@ public:
 	//Position on screen of this renderer
     int positionX;
     int positionY;
+	//or fullscreen
+	bool fullscreen;
     
     //The position of this renderer inside the total screen size
     int offsetX;
@@ -65,7 +67,14 @@ public:
 	vector<int> outputPorts;
 	
 	string capturePidFile;
-	
+
+
+/*******************************************************************************
+    Offset remote configuration
+*******************************************************************************/
+    bool remoteConfigServerEnabled;
+
+    void startRemoteConfigServer();
 };
 
 /*

@@ -34,6 +34,9 @@
 #define TRUE  1
 #define FALSE 0
 
+int keys[1024];
+ static GLfloat rtri, rquad, rroll, zoom;
+
 /* This is our SDL surface */
 SDL_Surface *surface;
 
@@ -81,6 +84,7 @@ int resizeWindow( int width, int height )
 /* function to handle key press events */
 void handleKeyPress( SDL_keysym *keysym )
 {
+  //
     switch ( keysym->sym )
 	{
 	case SDLK_ESCAPE:
@@ -128,10 +132,10 @@ int initGL( GLvoid )
 /* Here goes our drawing code */
 int drawGLScene( GLvoid )
 {
-	/*SDL_Delay((1.0f / 60.0f) * 1024);*/
+	SDL_Delay((1.0f / 60.0f) * 1024);
 
     /* rotational vars for the triangle and quad, respectively */
-    static GLfloat rtri, rquad;
+   
     /* These are to calculate our fps */
     static GLint T0     = 0;
     static GLint Frames = 0;
@@ -142,10 +146,14 @@ int drawGLScene( GLvoid )
 
     /* Move Left 1.5 Units And Into The Screen 6.0 */
     glLoadIdentity();
-    glTranslatef( -1.5f, 0.0f, -6.0f );
+    glTranslatef( 0.0f, 0.0f, zoom + -6.0f );
 
     /* Rotate The Triangle On The Y axis ( NEW ) */
-    glRotatef( rtri, 0.0f, 1.0f, 0.0f );
+    glRotatef( rtri, 1.0f, 0.0f, 0.0f );
+
+    glRotatef( rquad, 0.0f, 1.0f, 0.0f );
+
+    glRotatef( rroll, 0.0f, 0.0f, 1.0f );
 
     glBegin( GL_TRIANGLES );             /* Drawing Using Triangles       */
       glColor3f(   1.0f,  0.0f,  0.0f ); /* Red                           */
@@ -177,54 +185,6 @@ int drawGLScene( GLvoid )
       glVertex3f( -1.0f, -1.0f,  1.0f ); /* Right Of Triangle (Left)      */
     glEnd( );                            /* Finished Drawing The Triangle */
 
-    /* Move Right 3 Units */
-    glLoadIdentity( );
-    glTranslatef( 1.5f, 0.0f, -6.0f );
-
-    /* Rotate The Quad On The X axis ( NEW ) */
-    glRotatef( rquad, 1.0f, 0.0f, 0.0f );
-
-    /* Set The Color To Blue One Time Only */
-    glColor3f( 0.5f, 0.5f, 1.0f);
-
-    glBegin( GL_QUADS );                 /* Draw A Quad                      */
-      glColor3f(   0.0f,  1.0f,  0.0f ); /* Set The Color To Green           */
-      glVertex3f(  1.0f,  1.0f, -1.0f ); /* Top Right Of The Quad (Top)      */
-      glVertex3f( -1.0f,  1.0f, -1.0f ); /* Top Left Of The Quad (Top)       */
-      glVertex3f( -1.0f,  1.0f,  1.0f ); /* Bottom Left Of The Quad (Top)    */
-      glVertex3f(  1.0f,  1.0f,  1.0f ); /* Bottom Right Of The Quad (Top)   */
-
-      glColor3f(   1.0f,  0.5f,  0.0f ); /* Set The Color To Orange          */
-      glVertex3f(  1.0f, -1.0f,  1.0f ); /* Top Right Of The Quad (Botm)     */
-      glVertex3f( -1.0f, -1.0f,  1.0f ); /* Top Left Of The Quad (Botm)      */
-      glVertex3f( -1.0f, -1.0f, -1.0f ); /* Bottom Left Of The Quad (Botm)   */
-      glVertex3f(  1.0f, -1.0f, -1.0f ); /* Bottom Right Of The Quad (Botm)  */
-
-      glColor3f(   1.0f,  0.0f,  0.0f ); /* Set The Color To Red             */
-      glVertex3f(  1.0f,  1.0f,  1.0f ); /* Top Right Of The Quad (Front)    */
-      glVertex3f( -1.0f,  1.0f,  1.0f ); /* Top Left Of The Quad (Front)     */
-      glVertex3f( -1.0f, -1.0f,  1.0f ); /* Bottom Left Of The Quad (Front)  */
-      glVertex3f(  1.0f, -1.0f,  1.0f ); /* Bottom Right Of The Quad (Front) */
-
-      glColor3f(   1.0f,  1.0f,  0.0f ); /* Set The Color To Yellow          */
-      glVertex3f(  1.0f, -1.0f, -1.0f ); /* Bottom Left Of The Quad (Back)   */
-      glVertex3f( -1.0f, -1.0f, -1.0f ); /* Bottom Right Of The Quad (Back)  */
-      glVertex3f( -1.0f,  1.0f, -1.0f ); /* Top Right Of The Quad (Back)     */
-      glVertex3f(  1.0f,  1.0f, -1.0f ); /* Top Left Of The Quad (Back)      */
-
-      glColor3f(   0.0f,  0.0f,  1.0f ); /* Set The Color To Blue            */
-      glVertex3f( -1.0f,  1.0f,  1.0f ); /* Top Right Of The Quad (Left)     */
-      glVertex3f( -1.0f,  1.0f, -1.0f ); /* Top Left Of The Quad (Left)      */
-      glVertex3f( -1.0f, -1.0f, -1.0f ); /* Bottom Left Of The Quad (Left)   */
-      glVertex3f( -1.0f, -1.0f,  1.0f ); /* Bottom Right Of The Quad (Left)  */
-
-      glColor3f(   1.0f,  0.0f,  1.0f ); /* Set The Color To Violet          */
-      glVertex3f(  1.0f,  1.0f, -1.0f ); /* Top Right Of The Quad (Right)    */
-      glVertex3f(  1.0f,  1.0f,  1.0f ); /* Top Left Of The Quad (Right)     */
-      glVertex3f(  1.0f, -1.0f,  1.0f ); /* Bottom Left Of The Quad (Right)  */
-      glVertex3f(  1.0f, -1.0f, -1.0f ); /* Bottom Right Of The Quad (Right) */
-    glEnd( );                            /* Done Drawing The Quad            */
-
     /* Draw it to the screen */
     SDL_GL_SwapBuffers( );
 
@@ -241,10 +201,48 @@ int drawGLScene( GLvoid )
 	}
     }
 
+    //printf("%d %d %d %d\n", keys[119], keys[115], keys[97], keys[100]);
+
+    if(keys[119]){
+      rtri += 1.5f;
+    }
+
+    if(keys[115]){
+      rtri -= 1.5f;
+    }
+
+    if(keys[97]){
+      rquad += 1.5f;
+    }
+
+    if(keys[100]){
+      rquad -= 1.5f;
+    }
+
+    if(keys[113]){
+      rroll += 1.5f;
+    }
+
+    if(keys[101]){
+      rroll -= 1.5f;
+    }
+
+    if(keys[114]){
+      zoom += 0.1f;
+    }
+
+    if(keys[102]){
+      zoom -= 0.1f;
+    }
+
+    //rquad += 0.1f;
+
     /* Increase The Rotation Variable For The Triangle ( NEW ) */
-    rtri  += 0.2f;
+    /*rtri  += 0.2f;*/
     /* Decrease The Rotation Variable For The Quad     ( NEW ) */
-    rquad -=0.15f;
+    /*rquad -=0.15f;*/
+
+
 
     return( TRUE );
 }
@@ -252,6 +250,9 @@ int drawGLScene( GLvoid )
 /*int main( int argc, char **argv )*/
 int main(int argc, char*argv[])
 {
+  for(int i=0;i<1024;i++){
+    keys[i] = 0;
+  }
     /* Flags to pass to SDL_SetVideoMode */
     int videoFlags;
     /* main loop variable */
@@ -359,7 +360,26 @@ int main(int argc, char*argv[])
 			case SDL_KEYDOWN:
 			    /* handle key presses */
 			    handleKeyPress( &event.key.keysym );
+
+          int kid = (int)event.key.keysym.sym;
+
+          if(kid >= 0 && kid < 1024){
+            keys[kid] = 1;
+          }
+          printf("*** KEY DOWN %d\n", event.key.keysym.sym);
 			    break;
+      case SDL_KEYUP:
+
+
+          kid = (int)event.key.keysym.sym;
+        
+          if(kid >= 0 && kid < 1024){
+            keys[kid] = 0;
+          }
+
+          printf("*** KEY UP %d\n", event.key.keysym.sym);
+
+          break;
 			case SDL_QUIT:
 			    /* handle quit requests */
 			    done = TRUE;
@@ -370,9 +390,10 @@ int main(int argc, char*argv[])
 		}
 
 	    /* draw the scene */
-	    if ( isActive )
+	 
 		drawGLScene( );
 	}
+
 
     /* clean ourselves up and exit */
     Quit( 0 );

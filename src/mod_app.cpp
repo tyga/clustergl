@@ -160,6 +160,10 @@ void pushOp(uint16_t opID){
 		exit(1);
 	}
 
+	//LOG("Push %d\n", opID);
+
+	//LOG_INSTRUCTION(mCurrentInstruction);
+
 	mCurrentInstruction = &mInstructions[iInstructionCount++];
 	iCurrentBuffer = 0;
 	
@@ -435,6 +439,8 @@ extern "C" int SDL_Init(unsigned int flags) {
 		if(!theApp->run_shared("sdl")){
 			delete theApp;
 		}
+	}else{
+		LOG("Ignored a second/non-video SDL_Init()\n");
 	}
 	
 	//LOG("SDL_Init finished\n");
@@ -1914,7 +1920,7 @@ extern "C" void glTexParameterfv(GLenum target, GLenum pname, const GLfloat * pa
 	pushOp(179);
 	pushParam(target);
 	pushParam(pname);
-	pushBuf(params, sizeof(GLfloat) * sizeof(params));
+	pushBuf(params, sizeof(GLfloat));
 }
 
 //180
@@ -2781,7 +2787,12 @@ extern "C" const GLubyte * glGetString(GLenum name){
 	pushParam(name);
 
 	//currently glGetString returns 3379 characters on my machine
-	const GLubyte * ret = (GLubyte *)malloc(sizeof(GLubyte *)*4096);		
+	GLubyte * ret = (GLubyte *)malloc(sizeof(GLubyte *)*4096);	
+
+	for(int i=0;i<4096;i++){
+		ret[i] = 0;
+	}
+
 	pushBuf(ret, sizeof(GLubyte *)*4096, true);
 	waitForReturn();
 	return ret;
@@ -5404,7 +5415,7 @@ extern "C" void glVertexAttrib4usv(GLuint index, const GLushort * v){
 //576
 extern "C" void glVertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer){
 	LOG("Called untested stub VertexAttribPointer!\n");
-	pushOp(575);
+	pushOp(576);
 	pushParam(index);
 	pushParam(size);
 	pushParam(type);
