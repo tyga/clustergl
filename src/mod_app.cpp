@@ -4186,7 +4186,7 @@ extern "C" void glMultiDrawArrays(GLenum mode, GLint * first, GLsizei * count, G
 }
 
 //427
-extern "C" void glMultiDrawElements(GLenum mode, const GLsizei * count, GLenum type, const GLvoid ** indices, GLsizei primcount){
+extern "C" void glMultiDrawElements(GLenum mode, const GLsizei * count, GLenum type, const GLvoid * const* indices, GLsizei primcount){
 	LOG("Called unimplemted stub MultiDrawElements!\n");
 	//pushOp(427);
 	//pushParam(mode);
@@ -4929,7 +4929,7 @@ extern "C" void glLinkProgram(GLuint program){
 }
 
 //518
-extern "C" void glShaderSource(GLuint shader, GLsizei count, const GLchar ** string, const GLint * length){
+extern "C" void glShaderSource(GLuint shader, GLsizei count, const GLchar * const* string, const GLint * length){
 	pushOp(518);
 	pushParam(shader);
 	pushParam(count);
